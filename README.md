@@ -4,6 +4,10 @@ A playable gothic dungeon and settlement game for modern Chrome. No production d
 
 ## Run
 
+The entire browser game—markup, styles, scripts, SVG art, and journal—is in `public/index.html`. Open that file directly in Chrome to play locally without installing anything. It has no external asset or font dependencies. Guest progress is saved in that browser.
+
+For accounts and cross-device saves, serve the same file with the backend:
+
 ```sh
 npm ci
 npm start
