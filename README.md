@@ -17,9 +17,10 @@ Open the server on port 3000. Start by gathering wood and stone, construct a pro
 
 ## Included
 
-- Timed manual gathering, production buildings, hired workers with experience, and upgradeable storage.
-- Three generated dungeon choices, loadout-based risk estimates, automatic side-view pixel battles, 15 waves, extraction at waves 5 and 10, final boss.
-- Three troop classes, slow experience progression, paid revival, hero equipment, consumed blueprints, separate material drops, upgrades and tier crafting.
+- Timed manual gathering, production buildings, highlighted profession-specific worker hiring, and storage upgrades with increasing costs.
+- Three generated dungeon choices, combat-simulation risk estimates, and automatic side-view battles with individual ally/enemy HP, attack animations, damage numbers, critical hits, healing, and a combat log. Each dungeon has 15 waves, extraction at waves 5 and 10, and a final boss.
+- Three troop classes, slow experience progression, paid revival, and ten hero equipment slots: head, cape, neck, weapon, body, shield, legs, hands, feet, and ring. The hero starts with worn equipment in four slots. Gear adds attack, defense, HP, and higher-tier bonuses for critical hits, evasion, and life steal. Consumable blueprints and materials drop separately; equipment supports upgrades and tier crafting.
+- Compact Inventory dialog in the top bar tracks secured iron, rivets, leather, essence, and blueprints. A collapsible expedition spoils tracker shows all unsecured rewards. Existing two-slot saves migrate to the expanded loadout.
 - Hero emergency loans, manual repayment, 1% simple interest per five expeditions, and five-minute recovery when an outstanding debt blocks borrowing.
 - Local guest saves, email/password accounts with scrypt password hashing, server-side save storage, Google OAuth integration, contextual journal progress.
 
@@ -39,6 +40,6 @@ npx playwright install chromium
 npm test
 ```
 
-If Chromium is installed by the system, run `CHROMIUM_PATH=/usr/bin/chromium npm test` instead. The end-to-end test starts an isolated server and temporary account store and exercises gathering, building, hiring, crafting, upgrades, checkpoint extraction, revival borrowing, and account loading from a second browser context.
+If Chromium is installed by the system, run `CHROMIUM_PATH=/usr/bin/chromium npm test` instead. The end-to-end test starts an isolated server and temporary account store and exercises gathering, building, hiring, equipment slots, bonuses, inventory, checkpoint extraction, responsive battle display, revival borrowing, and account loading from a second browser context. Economy and combat tests cover save migration, storage scaling, actual damage and healing, warrior targeting, and risk-simulation isolation.
 
 Each cloud task is already isolated: use this checkout directly; do not create a worktree unless requested.
