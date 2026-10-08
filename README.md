@@ -97,3 +97,12 @@ healer +1 healing). Twenty survived expeditions earn a level. Growth previews
 show the next benefit. New expedition reports track actual damage/healing and
 final attackers, including queued runs. Historical saves retain their old rewards
 without inventing unavailable combat reports. Secondary UI panels stay collapsed.
+
+The centered armory shows up to five newest unhandled spare items. Equip,
+confirmed salvage, or Dismiss removes a find from that list; Dismiss preserves
+it in the collection. Merely selecting a slot does not handle its items. Older
+unhandled finds fill freed spaces. Swapped-out equipment is already handled.
+Slot selection reveals available equipment ranked by weighted net hero combat
+benefit (including set and permanent bonuses), with rarity/tier breaking ties.
+Comparisons display every changed combat stat; mixed tradeoffs remain visible.
+Each equipment type has a custom inline icon with tier and rarity treatments.
