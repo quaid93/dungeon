@@ -8,7 +8,7 @@ test('HTML infirmary phases, free timed revivals, and weapon identities work thr
  try{
   const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
   page.on('pageerror',error=>errors.push(error.message));
-  await page.clock.install();
+  await page.clock.install();await page.clock.pauseAt(new Date());
   const html=readFileSync('public/index.html','utf8').replace("const standalone=location.protocol==='file:';",'const standalone=true;');
   await page.route('http://projects.test/',route=>route.fulfill({contentType:'text/html',body:html}));
   await page.goto('http://projects.test/');
