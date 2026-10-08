@@ -3,6 +3,7 @@ extends Control
 const Model = preload("res://scripts/game_model.gd")
 const Store = preload("res://scripts/save_store.gd")
 const Accounts = preload("res://scripts/account_client.gd")
+const SettlementWorld = preload("res://scripts/settlement_world.gd")
 const WorldView = preload("res://scripts/world_view.gd")
 const Art = preload("res://scripts/pixel_art.gd")
 const GOLD = Color("dcc08a")
@@ -24,7 +25,9 @@ var nav_buttons: Dictionary = {}
 var root_box: HBoxContainer
 var scroll: ScrollContainer
 var live_labels: Dictionary = {}
-var world: GraveholdWorldView
+var world: Control
+var settlement_position = Vector2(535,535)
+var station_key = ""
 var modal: AcceptDialog
 var file_dialog: FileDialog
 var import_mode = false
@@ -44,6 +47,7 @@ func _ready() -> void:
  if saved!=null:
   if not model.load_state(saved):
    push_warning("Save not loaded: "+model.last_error)
+ restore_world_position()
  model.accrue()
  if demo_mode:
   prepare_demo()
@@ -251,6 +255,8 @@ func build_shell() -> void:
  update_resources()
 
 func render_tab() -> void:
+ if world is GraveholdSettlementWorld:
+  settlement_position = world.hero_position
  var old_scroll = scroll.scroll_vertical
  for child in content.get_children():
   content.remove_child(child)
@@ -258,6 +264,7 @@ func render_tab() -> void:
  live_labels.clear()
  world = null
  for title in nav_buttons:
+  nav_buttons[title].visible = title in ["Settlement","Expeditions","Loadout"] or tab!="Settlement"
   nav_buttons[title].add_theme_color_override("font_color",GOLD if title==tab else TEXT)
  var page_title = root_box.find_child("PageTitle",true,false)
  page_title.text = "Your settlement" if tab=="Settlement" else tab
@@ -336,9 +343,11 @@ func _second() -> void:
  var old_gather = model.s.gather!=null
  var old_dead = model.s.heroDead
  var old_runs = model.s.expeditions
- model.accrue(-1,focused)
+ var online = focused or (modal!=null and is_instance_valid(modal) and modal.visible and modal.has_focus()) or (file_dialog!=null and is_instance_valid(file_dialog) and file_dialog.visible and file_dialog.has_focus())
+ model.accrue(-1,online)
  if old_availability!=availability_signature() or old_gather!=(model.s.gather!=null) or old_dead!=model.s.heroDead or old_runs!=model.s.expeditions:
   render_tab()
+  if modal!=null and is_instance_valid(modal) and modal.visible and modal.title=="Settlement interaction": open_station(station_key)
  update_resources()
  autosave_elapsed += 1
  if autosave_elapsed>=5:
@@ -363,7 +372,17 @@ func _combat() -> void:
    save_progress()
   update_resources()
 
+func restore_world_position() -> void:
+ var point = model.s.get("settlementPosition",[535,535])
+ if point is Array and point.size()==2 and (point[0] is int or point[0] is float) and (point[1] is int or point[1] is float) and is_finite(float(point[0])) and is_finite(float(point[1])):
+  settlement_position = Vector2(point[0],point[1]).clamp(Vector2(35,85),Vector2(1065,610))
+ else: settlement_position = Vector2(535,535)
+ if world is GraveholdSettlementWorld: world.hero_position = settlement_position
+
 func save_progress() -> void:
+ if world is GraveholdSettlementWorld:
+  settlement_position = world.hero_position
+ model.s["settlementPosition"] = [settlement_position.x,settlement_position.y]
  if not store.write(model.serialize()):
   show_toast(store.last_error)
  if not accounts.email.is_empty():
@@ -389,6 +408,10 @@ func dispatch(action: String) -> void:
    render_tab()
    if not model.s.tutorialsDisabled and not model.s.seen.has(tab):
     show_journal(tab)
+   return
+  "world_loadout":
+   modal.hide()
+   dispatch("tab:Loadout")
    return
   "journal": show_journal(tab); return
   "inventory": inventory_dialog(); return
@@ -440,51 +463,86 @@ func dispatch(action: String) -> void:
   show_toast(model.last_error if not model.last_error.is_empty() else "This action is not available yet. Check resources and requirements.")
  save_progress()
  render_tab()
- if modal!=null and is_instance_valid(modal) and modal.visible and modal.title=="Inventory":
-  inventory_dialog()
+ if modal!=null and is_instance_valid(modal) and modal.visible:
+  if modal.title=="Inventory": inventory_dialog()
+  elif modal.title=="Settlement interaction": open_station(station_key)
 
 func settlement_ui() -> void:
- world = WorldView.new()
- world.mode = "settlement"
+ world = SettlementWorld.new()
  world.model = model
+ world.hero_position = settlement_position
+ world.can_move = func(): return focused and (modal==null or not is_instance_valid(modal) or not modal.visible) and (file_dialog==null or not is_instance_valid(file_dialog) or not file_dialog.visible)
+ world.interacted.connect(open_station)
  content.add_child(world)
- var grid = GridContainer.new()
- grid.columns = 3
- content.add_child(grid)
- var titles = {"wood":"Woodcutting camp","stone":"Stone quarry","food":"Homestead"}
- var jobs = {"wood":"woodcutter","stone":"miner","food":"farmer"}
- for key in Model.RESOURCES:
-  var box = card(grid,titles[key])
-  live_labels["stock_"+key] = label(box,"",12,MUTED)
-  live_labels["stockbar_"+key] = progress(box,model.s[key],model.cap(key))
-  var gather = button(box,"Gather "+key,"gather:"+key)
+ label(content,"Walk to a site and press E. Click a building to approach it. Visit the gate for expeditions, the blacksmith for equipment, and the barracks for companions.",12,MUTED)
+
+func open_station(key: String) -> void:
+ if key=="gate":
+  if modal!=null and is_instance_valid(modal): modal.hide()
+  dispatch("tab:Expeditions")
+  return
+ station_key = key
+ var box = open_dialog("Settlement interaction")
+ label(box,SettlementWorld.STATIONS[key].name,24,GOLD)
+ if key in Model.RESOURCES:
+  var titles = {"wood":"Woodcutting camp","stone":"Stone quarry","food":"Homestead"}
+  var jobs = {"wood":"woodcutter","stone":"miner","food":"farmer"}
+  var site = card(box,titles[key])
+  live_labels["stock_"+key] = label(site,"",12,MUTED)
+  live_labels["stockbar_"+key] = progress(site,model.s[key],model.cap(key))
+  var gather = button(site,"Gather "+key,"gather:"+key)
   live_labels["gather_"+key] = gather
-  label(box,"Manual yield +%d · 8 seconds" % model.gather_yield(key),11,MUTED)
+  label(site,"Manual yield +%d · 8 seconds" % model.gather_yield(key),11,MUTED)
   if not model.s.buildings.has(key):
-   button(box,"Build site · 20 wood · 10 stone","build:"+key,not model.can_pay({"wood":20,"stone":10}))
+   button(site,"Build site · 20 wood · 10 stone","build:"+key,not model.can_pay({"wood":20,"stone":10}))
   elif not model.s.workers.has(key):
-   label(box,"VACANT POSITION",10,GOLD)
-   button(box,"Hire "+jobs[key]+" · 20 wood · 15 food","worker:"+key,not model.can_pay({"wood":20,"food":15}),"+1 resource/sec · +4 manual yield · hero settlement bonus")
+   label(site,"VACANT POSITION",10,GOLD)
+   button(site,"Hire "+jobs[key]+" · 20 wood · 15 food","worker:"+key,not model.can_pay({"wood":20,"food":15}),"+1 resource/sec · +4 manual yield · hero settlement bonus")
   else:
-   label(box,"Worker level %d" % (1+floori(model.s.workers[key].xp/300.0)),12,GOLD)
-   var training = disclosure(box,"Worker training","training_"+key)
+   label(site,"Worker level %d" % (1+floori(model.s.workers[key].xp/300.0)),12,GOLD)
+   var training = disclosure(site,"Worker training","training_"+key)
    var cost = 30+floori(model.s.workers[key].xp/300.0)*15
    label(training,"Income %.2f → %.2f/sec · manual yield +4" % [model.income_rate(key),model.income_rate(key)+.2*(1+model.s.meta.prestiges*.05)],11,MUTED)
    button(training,"Train · %d %s" % [cost,key],"train:"+key,model.s[key]<cost)
-  var storage_detail = disclosure(box,"Storage · %d capacity" % model.cap(key),"storage_"+key)
+  var storage_detail = disclosure(site,"Storage · %d capacity" % model.cap(key),"storage_"+key)
   var cost = model.storage_cost(key)
   label(storage_detail,"Capacity %d → %d · manual yield +4\n%s" % [model.cap(key),model.cap(key)+150,Model.cost_text(cost)],11,MUTED)
   button(storage_detail,"Upgrade storage","storage:"+key,not model.can_pay(cost))
   if model.s[key]>=model.cap(key)*.9:
-   label(box,"Storage nearly full. Upgrade to avoid waste.",11,Color("e3a181"))
- var milestone = disclosure(content,"Settlement milestones & expedition support","milestones")
- support_ui(milestone)
- if model.s.foreman:
-  label(milestone,"Camp Foreman · collects finished tasks automatically",12,GOLD)
- else:
-  label(milestone,"Camp Foreman needs all three workers. Collects completed tasks; you start each gathering task.",12,MUTED)
-  button(milestone,"Hire · 300 wood · 200 stone · 250 food","foreman",model.s.workers.size()<3 or not model.can_pay({"wood":300,"stone":200,"food":250}))
- specialists_ui()
+   label(site,"Storage nearly full. Upgrade to avoid waste.",11,Color("e3a181"))
+ elif key=="barracks":
+  if not model.s.buildings.has("barracks"):
+   support_ui(box)
+  else:
+   var previous = content
+   content = box
+   recruits_ui()
+   content = previous
+ elif key=="forge":
+  label(box,"Inspect your equipment and choose a slot to upgrade or forge. A rescued blacksmith can establish a workshop for a 10% gold discount on upgrades.",13,MUTED)
+  button(box,"Open equipment","world_loadout")
+  var previous = content
+  content = box
+  specialists_ui()
+  content = previous
+ elif key=="treasury":
+  var previous = content
+  content = box
+  treasury_ui()
+  specialists_ui()
+  content = previous
+ elif key=="camp":
+  label(box,"Rest by the fire, plan your legacy, and manage camp help.",13,MUTED)
+  if model.s.foreman:
+   label(box,"Camp Foreman automatically collects completed gathering tasks.",12,GOLD)
+  else:
+   button(box,"Hire Foreman · 300 wood · 200 stone · 250 food","foreman",model.s.workers.size()<3 or not model.can_pay({"wood":300,"stone":200,"food":250}))
+  var previous = content
+  content = box
+  progression_ui()
+  content = previous
+ update_resources()
+ popup_dialog()
 
 func support_ui(parent: Node) -> void:
  label(parent,"Woodcutter +1 hero attack · Miner +1 defense · Farmer +5 HP",12,GOLD)
@@ -846,6 +904,7 @@ func progression_ui() -> void:
 
 func open_dialog(title: String, width: int = 600) -> VBoxContainer:
  if modal!=null and is_instance_valid(modal):
+  modal.hide()
   modal.queue_free()
  modal = AcceptDialog.new()
  modal.title = title
@@ -856,7 +915,15 @@ func open_dialog(title: String, width: int = 600) -> VBoxContainer:
  add_child(modal)
  var box = VBoxContainer.new()
  box.custom_minimum_size.x = width-60
- modal.add_child(box)
+ if title=="Settlement interaction":
+  var viewport = ScrollContainer.new()
+  viewport.custom_minimum_size = Vector2(740,440)
+  viewport.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+  modal.add_child(viewport)
+  box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+  viewport.add_child(box)
+ else:
+  modal.add_child(box)
  return box
 
 func popup_dialog() -> void:
@@ -960,6 +1027,7 @@ func confirm_import(source: Dictionary) -> void:
  box.add_child(b)
  b.pressed.connect(func():
   if model.load_state(source):
+   restore_world_position()
    model.accrue()
    selected_slot = ""
    tab = "Expeditions" if not model.battle.is_empty() else "Settlement"
@@ -1067,6 +1135,7 @@ func _account_loaded(data: Variant) -> void:
     store.path = "user://save.json"
     return
   model.accrue()
+ restore_world_position()
  tab = "Expeditions" if not model.battle.is_empty() else "Settlement"
  selected_slot = ""
  if modal!=null: modal.hide()

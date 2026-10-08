@@ -23,6 +23,9 @@ func run() -> void:
  app.prepare_demo()
  app.render_tab()
  await settle()
+ check(app.world is GraveholdSettlementWorld,"settlement is a playable world")
+ app.open_station("wood")
+ await settle()
  check(app.find_child("gather_wood",true,false)!=null,"native settlement action exists")
  app.model.reset()
  app.model.s.tutorialsDisabled = true
@@ -30,12 +33,14 @@ func run() -> void:
  app.model.s.wood = 19.5
  app.model.s.stone = 10
  app.render_tab()
+ app.open_station("wood")
  await settle()
  check(app.find_child("build_wood",true,false).disabled,"unaffordable building is disabled")
  app.model.s.last = app.model.now_ms()-1000
  app._second()
  await settle()
  check(not app.find_child("build_wood",true,false).disabled,"income enables newly affordable action without tab switching")
+ app.modal.hide()
  app.prepare_demo()
  app.dispatch("tab:Loadout")
  await settle()

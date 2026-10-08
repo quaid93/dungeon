@@ -13,7 +13,9 @@ godot --editor --path godot   # open the editor
 godot --path godot            # play directly
 ```
 
-Start with timed gathering, build production sites, and hire workers. Their income and bonuses support expeditions. Combat is automatic; choose your route and objectives, then extract at checkpoints or continue toward the boss. Journal introductions explain each screen. F11 toggles fullscreen.
+**The settlement is now a walkable top-down world.** Move with **WASD or arrow keys**, press **E** near a site, or **click a building** to walk there. Buildings block movement and click navigation routes around them. Visit the woodcutting camp, quarry, and homestead for timed gathering, construction, worker hiring, and storage. Visit the barracks for recruits, blacksmith for equipment, quartermaster for revival/debt, campfire for talents/prestige, and dungeon gate for expedition selection. Companions follow you around home.
+
+Start with timed gathering, build production sites, and hire workers. Their income and bonuses support expeditions. Combat is automatic; choose your route and objectives, then extract at checkpoints or continue toward the boss. Journal introductions explain each screen. F11 toggles fullscreen. The settlement position saves automatically. Dungeon fights remain side-view automatic battles in this first world-interaction update.
 
 ## Native conversion
 
@@ -23,7 +25,7 @@ Start with timed gathering, build production sites, and hire workers. Their inco
 - The progression systems include settlement support, rare milestone loot, scaling recruit/revival costs, objectives, companion bonds, specialist services, debt, prestige, talents, and cleared-dungeon queues.
 - Saves use atomic local JSON writes and a backup. Offline production stays at half rate and respects capacity. Active expeditions can resume from saves.
 
-[Native battle preview](docs/images/native-battle.png) · [Native loadout preview](docs/images/native-loadout.png)
+[Walkable settlement preview](docs/images/native-settlement.png) · [Native battle preview](docs/images/native-battle.png) · [Native loadout preview](docs/images/native-loadout.png)
 
 The runtime is GDScript. JavaScript remains only in the optional account service, legacy prototype, and development tools.
 
@@ -65,7 +67,7 @@ The conversion has been tested with Godot **4.6.3** on Linux. Platform export bi
 npm run test:native
 ```
 
-Runs the native gameplay suite, real scene/control checks, and email-account synchronization against a temporary server. Godot and Node 22+ must be on PATH. Set `GODOT_BIN` to select another engine executable. The gameplay suite compares formulas and save migration against browser fixtures.
+Runs the native gameplay suite, real scene/control checks, settlement navigation and interactions, and email-account synchronization against a temporary server. Godot and Node 22+ must be on PATH. Set `GODOT_BIN` to select another engine executable. The gameplay suite compares formulas and save migration against browser fixtures.
 
 The preserved browser suite runs separately:
 
@@ -79,6 +81,7 @@ CHROMIUM_PATH=/usr/bin/chromium npm test
 | --- | --- |
 | `godot/scripts/game_model.gd` | Gameplay rules, combat, progression, migration |
 | `godot/scripts/main.gd` | Native screens and interactions |
+| `godot/scripts/settlement_world.gd` | Settlement movement, navigation, collision, interactions, and rendering |
 | `godot/scripts/world_view.gd` | Battle and settlement rendering |
 | `godot/scripts/save_store.gd` | Atomic saves, backups, import/export |
 | `godot/scripts/account_client.gd` | Optional HTTP account synchronization |
