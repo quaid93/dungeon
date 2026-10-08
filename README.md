@@ -85,3 +85,15 @@ and reaching dungeon wave five. Construction costs 700 wood, 600 stone, 400 food
 and 120 dungeon gold. First recruitment costs 900 wood, 750 stone, 800 food, and
 150 gold; later companions cost more. Existing companions are preserved.
 The redesigned crypt and armory use inline SVG art with no external assets.
+
+Reward focus is chosen before entry: gold gives +60% gold, materials doubles
+material drop chances and gives +50% blueprint chance, and equipment gives +75%
+equipment chance at five-wave milestones. Balanced keeps normal drops. Focus
+never changes enemy strength; saved cleared routes retain their focus for queues.
+Settlement art responds to constructed sites, storage upgrades, workers, and troops.
+Companions receive persistent names, +2 HP per level, +1 attack every fourth level,
+and a modest level-five trait (warrior +1 personal defense, archer +2% personal crit,
+healer +1 healing). Twenty survived expeditions earn a level. Growth previews
+show the next benefit. New expedition reports track actual damage/healing and
+final attackers, including queued runs. Historical saves retain their old rewards
+without inventing unavailable combat reports. Secondary UI panels stay collapsed.
