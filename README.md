@@ -72,7 +72,7 @@ Alive warriors grant +5% hero defense, archers +3 percentage points of critical 
 
 Expedition history tracks total runs, best wave reached, bosses defeated, secured gold, and recent outcomes. New statistics cannot reconstruct rewards from older saves; existing run counts and the last known wave migrate. History survives prestige, but a full Reset Save clears it.
 
-Dungeon choices can have Double Loot (twice quantities), Elite Enemies (+25% HP/attack), or Starting Damage (hero starts at 75% HP). The clear-chance simulation includes the modifier.
+Dungeon choices can have Double Loot (twice currency and supplies; equipment never duplicates), Elite Enemies (+25% HP/attack), or Starting Damage (hero starts at 75% HP). The clear-chance simulation includes the modifier.
 
 After defeating a boss in the current lifetime and clearing debt, prestige resets the adventure and grants `3 + 2 × bosses defeated this lifetime` prestige Grave Essence. Each prestige permanently grants +5% hero attack, HP, and worker income. Prestige essence is separate from crafting essence. Talent paths spend it on five sequential ranks: Warrior attack, Survivor HP, or Treasure Hunter loot value/drop chances (+5% per rank). Talents, essence, history, and tutorial preferences survive prestige.
 
@@ -88,7 +88,7 @@ The redesigned crypt and armory use inline SVG art with no external assets.
 
 Reward focus is chosen before entry: gold gives +60% gold, materials doubles
 material drop chances and gives +50% blueprint chance, and equipment gives +75%
-equipment chance at five-wave milestones. Balanced keeps normal drops. Focus
+equipment chance at five-wave milestones, capped at 18%. Balanced keeps normal drops. Focus
 never changes enemy strength; saved cleared routes retain their focus for queues.
 Settlement art responds to constructed sites, storage upgrades, workers, and troops.
 Companions receive persistent names, +2 HP per level, +1 attack every fourth level,
@@ -106,3 +106,30 @@ Slot selection reveals available equipment ranked by weighted net hero combat
 benefit (including set and permanent bonuses), with rarity/tier breaking ties.
 Comparisons display every changed combat stat; mixed tradeoffs remain visible.
 Each equipment type has a custom inline icon with tier and rarity treatments.
+
+Optional expedition objectives pay one fixed bonus only after a successful
+extraction: solo wave 10 (+25 gold), elite wave 5 (+1 iron), or wave 10 with a
+recruit and everyone alive (+30 food, +1 rivet). The solo objective leaves recruits
+home, removes their passives, and excludes them from experience and loyalty.
+Forecasts include the selected objective. Objectives do not stack with reward
+multipliers and are disabled for offline queues.
+
+Companion loyalty increases once per survived successful return at wave 5 or
+beyond, including queued runs. Class-specific memories unlock at 10 and 20;
+30 concludes the story with +2 personal HP, capped and never repeated.
+Specialists can be freed at wave 10 (8% chance) or after a final boss (one missing
+specialist guaranteed). At most one is rescued per run, only extraction keeps
+them, and queued runs cannot rescue residents. Specialists reset with prestige:
+- Blacksmith: pay 300 wood, 250 stone, and 150 gold for a workshop; item upgrade
+  gold costs decrease 10%, while crafting and material costs stay unchanged.
+- Quartermaster: buy 25 food for 20 gold once per completed expedition, with
+  available storage required; unused purchase opportunities do not accumulate.
+- Scout: pay 20 gold to reroll dungeon choices. No better drop or combat odds.
+Services are blocked during expeditions and queues. No specialist grants hero
+combat bonuses. Equipment drop probability is capped at 18% even when focus
+and Treasure Hunter stack, and Double Loot never generates gear copies.
+
+The desktop armory places new finds left, hero equipment center, and available
+slot equipment right, with selected-item details below the hero. Empty side
+panels stay compact. All ten equipment icons now use custom pixel silhouettes
+and the hero sprite's armor palette. Smaller screens stack these panels.
