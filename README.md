@@ -15,6 +15,12 @@ npm start
 
 Open `http://localhost:3000`. Cross-device accounts require deploying the server to a shared HTTPS host with persistent storage. See [account/deployment documentation](docs/browser-prototype.md).
 
+## Compact game UI
+
+The HTML UI uses a consistent drawn icon system, embedded fonts, compact resource controls and collapsed settlement projects. Dungeon choices appear as three illustrated entrances with reward focus and combat readiness. Loadout keeps recent finds on the left, the Warden centered, and selected-slot equipment on the right; upgrading and forging stay below the hero.
+
+The rebuilt side-view arena features a layered torchlit crypt, larger pixel characters, smaller companions behind the hero, live HP meters, wave progress and visible spoils. Attack effects follow combat events and stop when the wave clears. Mobile layouts keep the hero prominent. Existing saves and game balance are preserved.
+
 ## Settlement projects and weapon collection
 
 **Settlement → Settlement projects** now contains a three-phase infirmary restoration. Establish the barracks first, then fund each construction phase with farm supplies, gold, and dungeon materials. Phases take one, two, and three minutes; construction continues while away. Completed phases and committed resources persist across saves.
