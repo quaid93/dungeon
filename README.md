@@ -63,3 +63,17 @@ Each character tracks completed revivals. Gold costs increase by 35% per revival
 Manual gathering still takes eight seconds. Its reward grows from 12 with gathering practice (a gradual square-root bonus), worker level, and storage upgrades. The promised amount is fixed when gathering starts and collection respects storage capacity.
 
 Spare equipment can be salvaged in Inventory after confirmation. Duplicates are labeled; equipping or keeping them remains optional. Rarity is preserved when swapping or forging gear. Common/uncommon/rare/epic/legendary salvage returns 20/50/120/250/600 gold plus increasing quantities of iron, rivets, and essence. Equipped items cannot be salvaged. Harder dungeons have better rarity rolls; existing equipment receives a compatible rarity on migration.
+
+## Information and long-term progression
+
+Resource tooltips explain spending uses and worker production. The top bar shows amount/capacity, current nominal income, and full-storage status. Storage warns at 90%. Worker, storage, and equipment upgrades preview their effects. Camp Foreman requires all three workers plus 300 wood, 200 stone, and 250 food; it collects ready manual tasks, but does not start new ones.
+
+Alive warriors grant +5% hero defense, archers +3 percentage points of critical chance, and healers +5 maximum HP. Three equipped tier-2 Gravewarden pieces grant +10% HP. Equipment rarity colors appear in slots, inventory, and loot alerts. Journal introductions can be disabled with “Don’t show tutorials again”; manual journal access remains.
+
+Expedition history tracks total runs, best wave reached, bosses defeated, secured gold, and recent outcomes. New statistics cannot reconstruct rewards from older saves; existing run counts and the last known wave migrate. History survives prestige, but a full Reset Save clears it.
+
+Dungeon choices can have Double Loot (twice quantities), Elite Enemies (+25% HP/attack), or Starting Damage (hero starts at 75% HP). The clear-chance simulation includes the modifier.
+
+After defeating a boss in the current lifetime and clearing debt, prestige resets the adventure and grants `3 + 2 × bosses defeated this lifetime` prestige Grave Essence. Each prestige permanently grants +5% hero attack, HP, and worker income. Prestige essence is separate from crafting essence. Talent paths spend it on five sequential ranks: Warrior attack, Survivor HP, or Treasure Hunter loot value/drop chances (+5% per rank). Talents, essence, history, and tutorial preferences survive prestige.
+
+Fully cleared routes unlock a queue of one or three offline expeditions. Each completes after five minutes, is resolved through combat simulation, and returns 50% rewards. A defeat requires revival and stops the queue. Gear and team changes are locked while away. Queue timestamps survive browser closure; completed runs settle on reopening, without a persistent server process. Like the rest of this prototype, queue validation is client-controlled and needs server authority before public competitive use.
