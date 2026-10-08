@@ -21,6 +21,15 @@ The HTML UI uses a consistent drawn icon system, embedded fonts, compact resourc
 
 The rebuilt side-view arena features a layered torchlit crypt, larger pixel characters, smaller companions behind the hero, live HP meters, wave progress and visible spoils. Attack effects follow combat events and stop when the wave clears. Mobile layouts keep the hero prominent. Existing saves and game balance are preserved.
 
+## Routes, mastery and preparation
+
+- Dungeon choices rotate through crypts (iron), ruined keeps (rivets), and haunted woods (leather). Favored material drops have 50% higher chance; Materials focus stacks with it. Material chance is capped at 35%. Equipment and blueprint scarcity remain unchanged.
+- Route cards pair simulated clear chance with a rough combat-score benchmark. Forecasts and unattended expeditions assume standard paths. At wave 5 choose sheltered (15% lower enemy HP/attack and gold/farm supplies) or plunder (10% stronger enemies, 20% higher gold/farm supplies). At wave 10 choose sheltered or a material trail (5% stronger enemies, 75% higher favored-material chance). Each choice affects only the next leg, saves independently, and does not multiply gear chances.
+- Armored guards hold the front; fragile archers target companions; enemy healers restore injured enemies every third beat. Recruit archers prioritize enemy healers. Heavy weapons ignore 20% of defense reduction. Reports distinguish enemy healing from party healing and recommend support using actual battle data.
+- Weapon mastery gains one point per cleared wave when a run ends, including defeat; 100 points give 1% weapon damage, capped at 300 points/3%. Forging retains mastery. Swapped-out items keep their progress; replacements inherit up to half, capped at 150 transferred points. Transfers take the greater value, never add, so repeated swaps do not grow mastery.
+- Settlement’s **Storehouse** owns all three storage wings. Existing per-resource levels and capacities remain intact. It shows time until full online and the extra production an upgrade retains over eight offline hours at the current 50% rate.
+- Expand **Recovery** before departure to see current hero and companion revival prices. A fallen hero can always begin free five-minute recovery without borrowing; the restored infirmary remains the faster, queued one-minute option.
+
 ## Settlement projects and weapon collection
 
 **Settlement → Settlement projects** now contains a three-phase infirmary restoration. Establish the barracks first, then fund each construction phase with farm supplies, gold, and dungeon materials. Phases take one, two, and three minutes; construction continues while away. Completed phases and committed resources persist across saves.

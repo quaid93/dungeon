@@ -15,3 +15,6 @@ Rewrite the UI with recognizable icons, neat organization, drastically better ba
 
 ## Stack
 Inline HTML, CSS, JavaScript and SVG. Node server and Playwright tests already exist. No new framework or runtime dependencies required.
+
+## Confirmed connected systems
+Enemy guards, archers and healers; favored-material dungeon families; two paths at checkpoints; bounded weapon mastery with partial replacement transfer; a shared Storehouse preserving resource capacities; pre-entry recovery costs and debt-free waiting recovery. Maintain the existing compact gothic UI.

@@ -13,3 +13,6 @@ Actions use short verbs. Costs, comparisons, income and missing requirements rem
 
 ## States and access
 Keyboard focus, named icon buttons, health meters, reduced motion, all empty/disabled states and 390px mobile layouts are required. The CSS is a single coherent source, replacing the accumulated redesign overrides.
+
+## Connected-system additions
+Family yields and recovery prices sit in compact route metadata and a collapsed preparation panel. Checkpoint paths use two icon-led choices with concise numerical tradeoffs. The Storehouse groups all resource wings in one collapsed settlement panel; mastery is a collapsed loadout meter. Enemy roles use equipment, staff/bow silhouettes, and small role icons rather than extra combat panels.

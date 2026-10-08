@@ -38,7 +38,7 @@ test('settlement support changes actual expedition stats and barracks gates recr
 
 test('reward focus boosts targeted rewards while equipment stays milestone-only',()=>{const run=game();run('startBattle({d:0,name:"Gold",focus:"gold"});rewardWave()');assert.equal(run('battle.loot.gold'),11);run('Math.random=()=>.1;startBattle({d:0,name:"Gear",focus:"equipment"});battle.wave=5;rewardWave()');assert.equal(run('battle.loot.equipment.length'),1);run('startBattle({d:0,name:"Materials",focus:"materials"});rewardWave()');assert.equal(run('battle.loot.iron'),1);assert.equal(run('battle.loot.equipment.length'),0);});
 test('recruit names migrate and modest class traits unlock at level five',()=>{const run=game();run('s.recruits=[{cls:"Archer",level:4,xp:19}];s=migrate(s)');assert.equal(run('s.recruits[0].name'),'Mira');assert.equal(run('recruitUnit(s.recruits[0],0).crit'),.06);run('recordRun(true,5,{gold:0},{name:"Crypt",d:0})');assert.equal(run('s.recruits[0].level'),5);assert.equal(run('recruitUnit(s.recruits[0],0).crit'),.08);assert.equal(run('recruitUnit({cls:"Warrior",level:5},0).defense'),3);assert.match(run('s.log[0]'),/class trait unlocked/);});
-test('combat reports record actual damage, healing, and final attacker',()=>{const run=game();run('startBattle({d:0,name:"Report"});battle.allies[0].hp=60;healUnit(battle.allies[0],battle.allies[0],3);hit(battle.allies[0],battle.enemies[0]);hit(battle.enemies[0],battle.allies[0])');assert.ok(run('battle.stats.damage.hero')>0);assert.equal(run('battle.stats.healing.hero'),3);assert.ok(run('battle.stats.taken')>0);assert.equal(run('battleReport(false).lastHit.name'),'Bone guard');run('finish(false)');assert.ok(run('s.lastExpedition.report.damage.hero')>0);});
+test('combat reports record actual damage, healing, and final attacker',()=>{const run=game();run('startBattle({d:0,name:"Report"});battle.allies[0].hp=60;healUnit(battle.allies[0],battle.allies[0],3);hit(battle.allies[0],battle.enemies[0]);hit(battle.enemies[0],battle.allies[0])');assert.ok(run('battle.stats.damage.hero')>0);assert.equal(run('battle.stats.healing.hero'),3);assert.ok(run('battle.stats.taken')>0);assert.equal(run('battleReport(false).lastHit.name'),'Armored guard');run('finish(false)');assert.ok(run('s.lastExpedition.report.damage.hero')>0);});
 
 test('armory comparisons rank combat gains without mutating gear and swapped items stay handled',()=>{const run=game();run('s.gear.weapon=2;s.gearRarities.weapon="rare";s.equipmentBag=[{slot:"weapon",tier:1,upgrade:0,rarity:"legendary"},{slot:"weapon",tier:3,upgrade:0,rarity:"common"}]');const before=run('JSON.stringify([s.gear,s.gearUpgrades,s.gearRarities])');assert.equal(run('rankedItems("weapon")[0].index'),1);assert.match(run('comparisonText(itemComparison(s.equipmentBag[0]))'),/−6 attack/);assert.equal(run('JSON.stringify([s.gear,s.gearUpgrades,s.gearRarities])'),before);run('equipItem(1)');assert.equal(run('s.equipmentBag[1].newFind'),false);assert.equal(run('s.gear.weapon'),3);});
 
@@ -68,3 +68,35 @@ test('tracked goals follow spare identities through equipping and guide route fo
 test('material tooltips, unavailable actions and debriefs explain sources and next steps',()=>{const run=game();assert.match(run('materialTooltip("leather")'),/Materials focus/);assert.match(run('blockedReason("recruit:Warrior")'),/Requires barracks/);assert.match(run('blockedReason("storage:wood")'),/Missing 35 wood/);run('s.buildings.barracks=1;pinGoal("infirmary")');assert.match(run('goalRecommendation()'),/infirmary.*more Iron/i);run('s.wood=5000;s.stone=5000;s.food=5000;s.gold=5000;for(const key of Object.keys(s.items))s.items[key]=100');assert.match(run('nextDecision(true)'),/supplies for Infirmary/);run('s.pinnedGoal=null;s.heroDead=true;s.food=0;s.gold=0');assert.match(run('nextDecision(false)'),/Gather food/);});
 
 test('small hero hits avoid whole-HP minimum abuse while enemies retain their original damage floor',()=>{const run=game();run('startBattle({d:0,name:"Armor test"});Math.random=()=>.5;const strongArmor={id:"enemy",name:"Armored",role:"Warrior",hp:100,maxHp:100,defense:100};const weakHero={id:"hero",name:"Hero",role:"Hero",hp:100,maxHp:100,attack:1,crit:0};hit(weakHero,strongArmor)');assert.equal(run('strongArmor.hp'),99.9);run('weakHero.defense=100;strongArmor.attack=1;strongArmor.crit=0;hit(strongArmor,weakHero)');assert.equal(run('weakHero.hp'),99);});
+
+test('families offer all three resources and favored material chances combine with focus',()=>{
+ const run=game();run('choices()');assert.equal(run('new Set(s.choices.map(c=>c.family)).size'),3);
+ run('Math.random=()=>.1;startBattle({d:0,family:"crypt",name:"Crypt"});rewardWave()');assert.equal(run('battle.loot.iron'),1);assert.equal(run('battle.loot.leather'),0);
+ run('startBattle({d:0,family:"woods",name:"Woods",focus:"materials"});rewardWave()');assert.equal(run('battle.loot.leather'),1);
+});
+test('checkpoint paths apply only to the next segment and retain the choice through saves',()=>{
+ const run=game();run('startBattle({d:0,name:"Paths"});battle.wave=5;rewardWave()');assert.equal(run('battle.pendingPath'),'safe');assert.equal(run('choosePath("material")'),false);assert.equal(run('choosePath("rich")'),true);
+ run('battle=JSON.parse(JSON.stringify(battle));continueBattle()');assert.equal(run('battle.path'),'rich');assert.equal(run('battle.wave'),6);assert.ok(run('battle.enemies[0].maxHp')>25);
+ run('battle.wave=10;rewardWave()');assert.equal(run('choosePath("rich")'),false);assert.equal(run('choosePath("material")'),true);run('continueBattle()');assert.equal(run('battle.path'),'material');assert.equal(run('choosePath("safe")'),false);
+});
+test('enemy roles change defenses, healer behavior and report accounting',()=>{
+ const run=game();run('s.gear.body=10;s.recruits=[{cls:"Archer",level:1,xp:0}];startBattle({d:2,name:"Roles"});battle.wave=6;spawnWave();battle.enemies[0].hp-=8;battle.allies[0].attack=0;battle.beat=1;tickBattle()');
+ assert.equal(run('battle.enemies[0].role'),'Guard');assert.ok(run('battle.enemies.find(u=>u.role==="Archer").defense')<run('battle.enemies[0].defense'));
+ run('tickBattle()');assert.ok(run('battle.stats.enemyHealing')>0);assert.equal(run('battle.stats.healing["enemy-3"]'),undefined);
+ assert.ok(run('battle.enemies.find(u=>u.role==="Healer").hp')<run('battle.enemies.find(u=>u.role==="Healer").maxHp'),'recruit archer targets healer');
+ assert.match(run('battleReport(false).recommendation'),/Archer/);
+});
+test('weapon mastery is capped, stays with items and cannot grow through repeated swaps',()=>{
+ const run=game();run('s.gear.weapon=8;s.gearMastery.weapon=300');const full=run('heroStats().attack');run('s.gearMastery.weapon=0');assert.ok(run('heroStats().attack')<full);
+ run('s.gearMastery.weapon=300;s.equipmentBag=[{slot:"weapon",tier:2,rarity:"rare",variant:"swift",masteryXP:0}];equipItem(0)');assert.equal(run('s.gearMastery.weapon'),150);assert.equal(run('s.equipmentBag[0].masteryXP'),300);
+ for(let i=0;i<8;i++)run('equipItem(0)');assert.equal(run('s.gearMastery.weapon'),150);assert.equal(run('masteryBonus(9999)'),.03);
+ run('recordRun(true,15,{gold:0},{d:0,name:"Mastery",clearedWave:15})');assert.equal(run('s.gearMastery.weapon'),165);
+ const state=run('JSON.stringify(s)');run('chance(0)');assert.equal(run('JSON.stringify(s)'),state);
+});
+test('mastery comparisons preserve state and migration retains existing storage capacities',()=>{
+ const run=game();run('s.gear.weapon=2;s.gearMastery.weapon=200;s.buildings.woodStorage=6;s.equipmentBag=[{slot:"weapon",tier:1,variant:"heavy",masteryXP:50}];s=migrate(JSON.parse(JSON.stringify(s)))');assert.equal(run('cap("wood")'),1000);const state=run('JSON.stringify(s)');run('itemComparison(s.equipmentBag[0])');assert.equal(run('JSON.stringify(s)'),state);
+});
+test('storehouse forecasts honor reduced offline income and available space',()=>{
+ const run=game();run('s.workers.wood={xp:0};s.wood=90');assert.equal(run('storageProjection("wood").fillsIn'),10);assert.equal(run('storageProjection("wood",.01).offlineExtra'),8);
+ assert.equal(run('storageProjection("food").offlineExtra'),0);assert.equal(run('storageProjection("food").fillsIn'),Infinity);assert.match(run('storehousePanel()'),/resource wings/);
+});
