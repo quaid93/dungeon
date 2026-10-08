@@ -1,0 +1,330 @@
+[
+  {
+    "name": "empty",
+    "state": {
+      "wood": 0,
+      "stone": 0,
+      "food": 0,
+      "gold": 0,
+      "buildings": {},
+      "workers": {},
+      "recruits": [],
+      "gear": {
+        "head": -1,
+        "cape": -1,
+        "neck": -1,
+        "weapon": -1,
+        "body": -1,
+        "shield": -1,
+        "legs": -1,
+        "hands": -1,
+        "feet": -1,
+        "ring": -1
+      },
+      "gearUpgrades": {
+        "head": 0,
+        "cape": 0,
+        "neck": 0,
+        "weapon": 0,
+        "body": 0,
+        "shield": 0,
+        "legs": 0,
+        "hands": 0,
+        "feet": 0,
+        "ring": 0
+      },
+      "items": {
+        "iron": 0,
+        "rivets": 0,
+        "leather": 0,
+        "essence": 0
+      },
+      "blueprints": 0,
+      "seen": [],
+      "last": 1791433090176,
+      "gather": null,
+      "heroDead": false,
+      "recover": 0,
+      "debt": 0,
+      "interest": 0,
+      "expeditions": 0,
+      "loanRuns": 0,
+      "log": [
+        "Your story begins at the edge of the woods."
+      ],
+      "choices": null,
+      "specialists": {},
+      "objective": "none",
+      "quartermasterRun": -1,
+      "objectivesCompleted": 0,
+      "meta": {
+        "prestiges": 0,
+        "essence": 0
+      },
+      "talents": {
+        "warrior": 0,
+        "survivor": 0,
+        "treasure": 0
+      },
+      "history": {
+        "runs": 0,
+        "best": 0,
+        "bosses": 0,
+        "gold": 0,
+        "recent": []
+      },
+      "cycleBosses": 0,
+      "clearedDungeons": {},
+      "offlineQueue": null,
+      "foreman": false,
+      "tutorialsDisabled": false,
+      "lootAlert": null,
+      "heroRevives": 0,
+      "gatherCounts": {},
+      "gearRarities": {
+        "head": "common",
+        "cape": "common",
+        "neck": "common",
+        "weapon": "common",
+        "body": "common",
+        "shield": "common",
+        "legs": "common",
+        "hands": "common",
+        "feet": "common",
+        "ring": "common"
+      },
+      "equipmentBag": [],
+      "lastExpedition": null,
+      "rewardFocus": "balanced"
+    },
+    "hero": {
+      "attack": 9,
+      "defense": 0,
+      "health": 75,
+      "crit": 0.05,
+      "evade": 0,
+      "leech": 0
+    },
+    "upgrade": {
+      "gold": 150,
+      "iron": 8
+    },
+    "forge": {
+      "iron": 18,
+      "rivets": 12,
+      "gold": 600
+    },
+    "gather": 12,
+    "income": 0,
+    "revive": {
+      "gold": 25,
+      "food": 15
+    },
+    "recruits": []
+  },
+  {
+    "name": "established",
+    "state": {
+      "wood": 0,
+      "stone": 0,
+      "food": 0,
+      "gold": 0,
+      "buildings": {
+        "woodStorage": 3,
+        "stoneStorage": 2,
+        "foodStorage": 1,
+        "workshop": 1
+      },
+      "workers": {
+        "wood": {
+          "xp": 650
+        },
+        "stone": {
+          "xp": 320
+        },
+        "food": {
+          "xp": 400
+        }
+      },
+      "recruits": [
+        {
+          "cls": "Warrior",
+          "level": 5,
+          "xp": 0,
+          "dead": false,
+          "loyalty": 30
+        },
+        {
+          "cls": "Archer",
+          "level": 5,
+          "xp": 0,
+          "dead": false,
+          "loyalty": 20
+        },
+        {
+          "cls": "Healer",
+          "level": 5,
+          "xp": 0,
+          "dead": false,
+          "loyalty": 10
+        }
+      ],
+      "gear": {
+        "head": 2,
+        "cape": 1,
+        "neck": 1,
+        "weapon": 2,
+        "body": 2,
+        "shield": -1,
+        "legs": -1,
+        "hands": -1,
+        "feet": -1,
+        "ring": 1
+      },
+      "gearUpgrades": {
+        "head": 0,
+        "cape": 0,
+        "neck": 0,
+        "weapon": 2,
+        "body": 0,
+        "shield": 0,
+        "legs": 0,
+        "hands": 0,
+        "feet": 0,
+        "ring": 0
+      },
+      "items": {
+        "iron": 0,
+        "rivets": 0,
+        "leather": 0,
+        "essence": 0
+      },
+      "blueprints": 0,
+      "seen": [],
+      "last": 1791433090178,
+      "gather": null,
+      "heroDead": false,
+      "recover": 0,
+      "debt": 0,
+      "interest": 0,
+      "expeditions": 0,
+      "loanRuns": 0,
+      "log": [
+        "Your story begins at the edge of the woods."
+      ],
+      "choices": null,
+      "specialists": {},
+      "objective": "none",
+      "quartermasterRun": -1,
+      "objectivesCompleted": 0,
+      "meta": {
+        "prestiges": 2,
+        "essence": 3
+      },
+      "talents": {
+        "warrior": 2,
+        "survivor": 1,
+        "treasure": 3
+      },
+      "history": {
+        "runs": 0,
+        "best": 0,
+        "bosses": 0,
+        "gold": 0,
+        "recent": []
+      },
+      "cycleBosses": 0,
+      "clearedDungeons": {},
+      "offlineQueue": null,
+      "foreman": false,
+      "tutorialsDisabled": false,
+      "lootAlert": null,
+      "heroRevives": 3,
+      "gatherCounts": {
+        "wood": 25
+      },
+      "gearRarities": {
+        "head": "common",
+        "cape": "common",
+        "neck": "common",
+        "weapon": "common",
+        "body": "common",
+        "shield": "common",
+        "legs": "common",
+        "hands": "common",
+        "feet": "common",
+        "ring": "common"
+      },
+      "equipmentBag": [],
+      "lastExpedition": null,
+      "rewardFocus": "balanced"
+    },
+    "hero": {
+      "attack": 42,
+      "defense": 11.55,
+      "health": 119,
+      "crit": 0.1,
+      "evade": 0.015,
+      "leech": 0.015
+    },
+    "upgrade": {
+      "gold": 495,
+      "iron": 20
+    },
+    "forge": {
+      "iron": 34,
+      "rivets": 24,
+      "gold": 1400
+    },
+    "gather": 46,
+    "income": 1.54,
+    "revive": {
+      "gold": 62,
+      "food": 30
+    },
+    "recruits": [
+      {
+        "id": "recruit-0",
+        "name": "Aldric",
+        "kind": "Warrior",
+        "role": "Warrior",
+        "index": 0,
+        "maxHp": 35,
+        "hp": 35,
+        "attack": 3,
+        "defense": 3,
+        "crit": 0.02,
+        "evade": 0,
+        "leech": 0
+      },
+      {
+        "id": "recruit-1",
+        "name": "Rowan",
+        "kind": "Archer",
+        "role": "Archer",
+        "index": 1,
+        "maxHp": 27,
+        "hp": 27,
+        "attack": 4,
+        "defense": 0,
+        "crit": 0.08,
+        "evade": 0,
+        "leech": 0
+      },
+      {
+        "id": "recruit-2",
+        "name": "Iona",
+        "kind": "Healer",
+        "role": "Healer",
+        "index": 2,
+        "maxHp": 29,
+        "hp": 29,
+        "attack": 2,
+        "defense": 0,
+        "crit": 0.02,
+        "evade": 0,
+        "leech": 0
+      }
+    ]
+  }
+]

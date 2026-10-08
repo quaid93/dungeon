@@ -1,0 +1,27 @@
+; Native desktop game. Import this project in Godot 4.6+ and press F6/F5.
+config_version=5
+
+[application]
+config/name="Gravehold"
+config/description="A gothic expedition and settlement auto-battler"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+config/icon="res://assets/items/head_2_rare.svg"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Gravehold"
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=960
+window/size/window_width_override=1440
+window/size/window_height_override=960
+window/size/min_width=1024
+window/size/min_height=720
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.055, 0.071, 0.102, 1)

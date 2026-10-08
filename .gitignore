@@ -2,3 +2,8 @@ data/*
 .env
 node_modules/
 .npm-cache/
+
+# Native Godot import cache, generated desktop exports, and local credentials.
+godot/.godot/
+builds/
+*.tmp
