@@ -55,3 +55,11 @@ Each cloud task is already isolated: use this checkout directly; do not create a
 - First recruit: 500 wood, 400 stone, 450 food. Later recruits cost more. Storage expansion and worker production are needed before hiring.
 
 These are initial balance values to tune through playtesting; tests verify the rules and persistence, not long-term economy pacing.
+
+## Revival, active gathering, and duplicates
+
+Each character tracks completed revivals. Gold costs increase by 35% per revival and food by 25%, rounded up. Hero loans use the current price, and both loan revivals and free recoveries advance the hero’s counter. Failed payments do not advance it.
+
+Manual gathering still takes eight seconds. Its reward grows from 12 with gathering practice (a gradual square-root bonus), worker level, and storage upgrades. The promised amount is fixed when gathering starts and collection respects storage capacity.
+
+Spare equipment can be salvaged in Inventory after confirmation. Duplicates are labeled; equipping or keeping them remains optional. Rarity is preserved when swapping or forging gear. Common/uncommon/rare/epic/legendary salvage returns 20/50/120/250/600 gold plus increasing quantities of iron, rivets, and essence. Equipped items cannot be salvaged. Harder dungeons have better rarity rolls; existing equipment receives a compatible rarity on migration.
