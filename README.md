@@ -77,3 +77,11 @@ Dungeon choices can have Double Loot (twice quantities), Elite Enemies (+25% HP/
 After defeating a boss in the current lifetime and clearing debt, prestige resets the adventure and grants `3 + 2 × bosses defeated this lifetime` prestige Grave Essence. Each prestige permanently grants +5% hero attack, HP, and worker income. Prestige essence is separate from crafting essence. Talent paths spend it on five sequential ranks: Warrior attack, Survivor HP, or Treasure Hunter loot value/drop chances (+5% per rank). Talents, essence, history, and tutorial preferences survive prestige.
 
 Fully cleared routes unlock a queue of one or three offline expeditions. Each completes after five minutes, is resolved through combat simulation, and returns 50% rewards. A defeat requires revival and stops the queue. Gear and team changes are locked while away. Queue timestamps survive browser closure; completed runs settle on reopening, without a persistent server process. Like the rest of this prototype, queue validation is client-controlled and needs server authority before public competitive use.
+
+Settlement and expedition progression are connected: staffed woodcutting, quarry,
+and homestead sites grant the hero +1 attack, +1 defense, and +5 HP respectively.
+Recruitment now requires a barracks, unlocked by staffing all three professions
+and reaching dungeon wave five. Construction costs 700 wood, 600 stone, 400 food,
+and 120 dungeon gold. First recruitment costs 900 wood, 750 stone, 800 food, and
+150 gold; later companions cost more. Existing companions are preserved.
+The redesigned crypt and armory use inline SVG art with no external assets.
